@@ -37,10 +37,16 @@ function nextSequence() {
 }
 
 function playSound(name) {
-    let audio = new Audio("sounds/" + name + ".mp3");
-    audio.play();
-}
+    const audio = new Audio("sounds/" + name + ".mp3");
 
+
+    audio.play().catch((error) => {
+        console.log("Autoplay bloqueado. Reintentar después de interacción:", error);
+        document.body.addEventListener("touchstart", () => {
+            audio.play();
+        }, { once: true });
+    });
+}
 function animatePress(currentColor) {
     let btn = document.getElementById(currentColor);
     btn.classList.add("pressed");
